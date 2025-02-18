@@ -1,0 +1,87 @@
+/* MedicalAppointments.css */
+.appointments-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .appointments-container h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .appointment-form input,
+  .appointment-form textarea,
+  .appointment-form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .appointment-form textarea {
+    height: 100px;
+  }
+  
+  .appointment-form button {
+    background: #28a745;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .appointment-form button:hover {
+    background: #218838;
+  }
+  
+  .appointments-list {
+    margin-top: 30px;
+  }
+  
+  .appointments-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .appointments-list li {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .appointments-list li p {
+    margin: 5px 0;
+  }
+  
+  .appointments-list button {
+    background: #ffc107;
+    color: white;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .appointments-list button:hover {
+    background: #e0a800;
+  }
+  
+  .appointments-list button:last-child {
+    background: #dc3545;
+  }
+  
+  .appointments-list button:last-child:hover {
+    background: #c82333;
+  }
+  
