@@ -3,128 +3,113 @@ import React, { useState } from 'react';
 import './UserManagement.css';
 
 const UserManagement = () => {
-  const [userData, setUserData] = useState({
+  const [users, setUsers] = useState([]);
+  const [newUser, setNewUser] = useState({
     name: '',
     address: '',
     email: '',
     phone: '',
-    role: 'paciente', // Por defecto asignamos 'paciente'
+    userType: '',
   });
 
-  const [users, setUsers] = useState([]);
+  const [isEditing, setIsEditing] = useState(false); // Para saber si estamos editando un usuario
+  const [editIndex, setEditIndex] = useState(null); // Para saber qué usuario estamos editando
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUserData({
-      ...userData,
+    setNewUser({
+      ...newUser,
       [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleAddUser = () => {
+    if (isEditing) {
+      const updatedUsers = [...users];
+      updatedUsers[editIndex] = newUser; // Reemplaza el usuario editado
+      setUsers(updatedUsers);
+    } else {
+      setUsers([...users, newUser]); // Agrega un nuevo usuario
+    }
+    setNewUser({ name: '', address: '', email: '', phone: '', userType: '' }); // Limpia el formulario
+    setIsEditing(false); // Resetear el estado de edición
+    setEditIndex(null); // Resetear el índice de edición
+  };
 
-    // Añadir el nuevo usuario a la lista de usuarios
-    setUsers([...users, userData]);
+  const handleEditUser = (index) => {
+    const userToEdit = users[index];
+    setNewUser(userToEdit);
+    setIsEditing(true);
+    setEditIndex(index);
+  };
 
-    // Limpiar el formulario después de agregar el usuario
-    setUserData({
-      name: '',
-      address: '',
-      email: '',
-      phone: '',
-      role: 'paciente',
-    });
+  const handleDeleteUser = (index) => {
+    const updatedUsers = users.filter((_, i) => i !== index); // Filtra el usuario a eliminar
+    setUsers(updatedUsers);
   };
 
   return (
     <div className="user-management-container">
       <h2>Gestión de Usuarios</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <label htmlFor="name">Nombre Completo</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={userData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label htmlFor="address">Dirección</label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            value={userData.address}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label htmlFor="email">Correo Electrónico</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={userData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label htmlFor="phone">Teléfono</label>
-          <input
-            type="text"
-            id="phone"
-            name="phone"
-            value={userData.phone}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label htmlFor="role">Tipo de Usuario</label>
-          <select
-            id="role"
-            name="role"
-            value={userData.role}
-            onChange={handleChange}
-            required
-          >
-            <option value="paciente">Paciente</option>
-            <option value="medico">Médico</option>
-            <option value="administrativo">Administrativo</option>
-          </select>
-        </div>
-        <button type="submit">Crear Usuario</button>
-      </form>
+      <div className="user-form">
+        <input
+          type="text"
+          name="name"
+          value={newUser.name}
+          onChange={handleInputChange}
+          placeholder="Nombre Completo"
+        />
+        <input
+          type="text"
+          name="address"
+          value={newUser.address}
+          onChange={handleInputChange}
+          placeholder="Dirección"
+        />
+        <input
+          type="email"
+          name="email"
+          value={newUser.email}
+          onChange={handleInputChange}
+          placeholder="Correo Electrónico"
+        />
+        <input
+          type="text"
+          name="phone"
+          value={newUser.phone}
+          onChange={handleInputChange}
+          placeholder="Teléfono"
+        />
+        <select
+          name="userType"
+          value={newUser.userType}
+          onChange={handleInputChange}
+        >
+          <option value="">Selecciona un tipo de usuario</option>
+          <option value="admin">Administrador</option>
+          <option value="doctor">Médico</option>
+          <option value="patient">Paciente</option>
+        </select>
+        <button onClick={handleAddUser}>
+          {isEditing ? 'Modificar Usuario' : 'Agregar Usuario'}
+        </button>
+      </div>
 
-      <h3>Lista de Usuarios</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Dirección</th>
-            <th>Email</th>
-            <th>Teléfono</th>
-            <th>Rol</th>
-          </tr>
-        </thead>
-        <tbody>
+      <div className="user-list">
+        <h3>Usuarios Registrados</h3>
+        <ul>
           {users.map((user, index) => (
-            <tr key={index}>
-              <td>{user.name}</td>
-              <td>{user.address}</td>
-              <td>{user.email}</td>
-              <td>{user.phone}</td>
-              <td>{user.role}</td>
-            </tr>
+            <li key={index}>
+              <p><strong>{user.name}</strong> ({user.userType})</p>
+              <p>Dirección: {user.address}</p>
+              <p>Email: {user.email}</p>
+              <p>Teléfono: {user.phone}</p>
+              <button onClick={() => handleEditUser(index)}>Editar</button>
+              <button onClick={() => handleDeleteUser(index)}>Eliminar</button>
+            </li>
           ))}
-        </tbody>
-      </table>
+        </ul>
+      </div>
     </div>
   );
 };
