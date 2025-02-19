@@ -8,7 +8,7 @@ const Login = ({ onRegisterClick }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí va la lógica de autenticación, por ahora solo mostramos el login
+    // Aquí va la lógica de autenticación, por ahora solo mostramos el login.
   };
 
   return (
